@@ -1,3 +1,23 @@
 <resources>
     <string name="app_name">SongApp</string>
+    <string name="illegal_binding">"Binding has not yet been initialized. It is forbidden to access binding property before super.onCreate() call"
+    </string>
+    <string name="generic_connection_error">Connection error</string>
+
+    <!-- MainActivity -->
+    <string name="main_activity_title">SongApp</string>
+    <string name="main_activity_search_text_hint">Enter artist name</string>
+    <string name="main_activity_data_fetch_error">"Error while fetching data"</string>
+    <string name="main_activity_invalid_data_source">Invalid data source exception</string>
+    <string name="main_activity_no_songs_found">No songs found</string>
+
+    <!-- toolbar menu -->
+    <string name="menu_title">Data source:</string>
+    <string name="menu_local">Local</string>
+    <string name="menu_api">iTunes</string>
+    <string name="menu_both">Local + iTunes</string>
+
+    <!--resource providers -->
+    <string name="song_data_provider_local_error">Local song provider error.</string>
+    <string name="song_data_provider_api_error">iTunes API error</string>
 </resources>

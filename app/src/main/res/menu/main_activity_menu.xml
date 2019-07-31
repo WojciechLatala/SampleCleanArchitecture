@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item android:title="@string/menu_title"
+          android:enabled="false"/>
+    <group android:checkableBehavior="single">
+        <item android:id="@+id/main_activity_menu_local"
+              android:title="@string/menu_local"/>
+        <item android:id="@+id/main_activity_menu_api"
+              android:title="@string/menu_api"/>
+        <item android:id="@+id/main_activity_menu_both"
+              android:title="@string/menu_both"
+              android:checked="true"/>
+    </group>
+</menu>
