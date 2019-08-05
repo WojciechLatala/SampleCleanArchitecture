@@ -70,7 +70,7 @@ class MainActivity : BindingActivity<ActivityMainBinding>() {
     }
 
     override fun onPause() {
-        binding?.songsSearchInput.clearFocus()
+        binding.songsSearchInput.clearFocus()
         super.onPause()
     }
 }

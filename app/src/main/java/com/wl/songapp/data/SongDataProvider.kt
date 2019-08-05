@@ -19,7 +19,7 @@ class SongDataProvider(
     fun getSongListLocal(term: String): Single<SongDataProviderResult> {
         return localSongProvider.searchSongsByArtistName(term)
             .map { SongDataProviderResult(it, null) }
-            .onErrorReturn { error ->
+            .onErrorReturn {
                 SongDataProviderResult(
                     emptyList(),
                     Throwable(
@@ -64,7 +64,7 @@ class SongDataProvider(
                 getSongListFromApi(term),
                 BiFunction { local, api ->
                     local.copy(
-                        songList = local.songList.plus(api.songList).distinctBy { it.artistName?.toLowerCase() to it.songName?.toLowerCase() },
+                        songList = local.songList.plus(api.songList).distinctBy { it.artistName.toLowerCase() to it.songName.toLowerCase() },
                         error = mergeErrors(local.error, api.error)
                     )
                 })
