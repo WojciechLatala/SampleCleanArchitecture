@@ -1,37 +1,41 @@
 package com.wl.songapp.data.api
 
 import com.wl.songapp.di.applicationModule
+import com.wl.songapp.extension.empty
 import com.wl.songapp.testAwait
 import junit.framework.Assert.assertEquals
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
-import org.koin.standalone.StandAloneContext
-import org.koin.standalone.inject
+import org.koin.core.context.startKoin
+import org.koin.core.context.stopKoin
 import org.koin.test.KoinTest
+import org.koin.test.inject
 
 
 class ApiSongDataProviderTest : KoinTest {
 
-    private val apiSongProvider by inject<ApiSongProvider>()
+    private val apiSongProvider by inject<IRemoteSongApi>()
 
     @Before
     fun setUp() {
-        StandAloneContext.startKoin(listOf(applicationModule))
+        startKoin{
+            listOf(applicationModule)
+        }
     }
 
 
     @After
     fun tearDown() {
-        StandAloneContext.stopKoin()
+        stopKoin()
     }
 
     @Test
     fun `get ITunesResponse with empty term - returns empty ITunesResponse object`(){
-        val artistName = ""
+        val artistName = String.empty
         val expectedResultCount = 0
 
-        val testObserver = apiSongProvider.getITunesResponseForArtistName(artistName).testAwait()
+        val testObserver = apiSongProvider.getSongsForArtistName(artistName).testAwait()
         testObserver.assertNoErrors()
         testObserver.assertNoTimeout()
         testObserver.assertValueCount(1)
@@ -44,7 +48,7 @@ class ApiSongDataProviderTest : KoinTest {
     fun `get ITunesResponse with gibberish term - returns empty ITunesResponse object`(){
         val artistNameTerm = "asdhovuhasoidjnd shadonasid"
         val expectedResultCount = 0
-        val testObserver = apiSongProvider.getITunesResponseForArtistName(artistNameTerm).testAwait()
+        val testObserver = apiSongProvider.getSongsForArtistName(artistNameTerm).testAwait()
         testObserver.assertNoErrors()
         testObserver.assertNoTimeout()
         testObserver.assertValueCount(1)
@@ -59,7 +63,7 @@ class ApiSongDataProviderTest : KoinTest {
         val artistNameTerm = "acid drink"
         val expectedResultCount = 50
 
-        val testObserver = apiSongProvider.getITunesResponseForArtistName(artistNameTerm).testAwait()
+        val testObserver = apiSongProvider.getSongsForArtistName(artistNameTerm).testAwait()
         testObserver.assertNoErrors()
         testObserver.assertNoTimeout()
         testObserver.assertValueCount(1)

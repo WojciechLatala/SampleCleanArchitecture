@@ -2,8 +2,13 @@ package com.wl.songapp
 
 import android.app.Application
 import com.wl.songapp.di.applicationModule
+import com.wl.songapp.di.mappersModule
+import com.wl.songapp.di.useCaseModule
 import com.wl.songapp.di.viewModelsModule
-import org.koin.android.ext.android.startKoin
+import org.koin.android.ext.koin.androidContext
+import org.koin.android.ext.koin.androidLogger
+import org.koin.core.context.startKoin
+
 
 class SongAppApplication : Application() {
 
@@ -16,6 +21,10 @@ class SongAppApplication : Application() {
         super.onCreate()
 
         instance = this
-        startKoin(this, listOf(viewModelsModule, applicationModule))
+        startKoin {
+            androidLogger()
+            androidContext(instance)
+            modules(listOf(viewModelsModule, useCaseModule, mappersModule, applicationModule))
+        }
     }
 }
