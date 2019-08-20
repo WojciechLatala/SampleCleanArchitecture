@@ -1,24 +1,24 @@
 package com.wl.songapp.data.local
 
-import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.squareup.moshi.Moshi
-import com.wl.songapp.SongAppApplication
+import com.wl.songapp.data.db.LocalSongProvider
 import com.wl.songapp.testAwait
 import org.junit.Test
 import org.junit.Assert.*
 import org.junit.runner.RunWith
+import org.koin.core.inject
+import org.koin.test.KoinTest
 
 @RunWith(AndroidJUnit4::class)
-class LocalSongProviderTest {
+class LocalSongProviderTest: KoinTest {
 
-    private val localSongProvider = LocalSongProvider(ApplicationProvider.getApplicationContext<SongAppApplication>(), Moshi.Builder().build())
+    private val localSongProvider by inject<LocalSongProvider>()
 
     @Test
     fun getSongsListForEmptyTerm_returnsEmpty(){
         val artistName = ""
 
-        val testObserver = localSongProvider.searchSongsByArtistName(artistName).testAwait()
+        val testObserver = localSongProvider.searchSongsForArtistName(artistName).testAwait()
         testObserver.assertNoErrors()
         testObserver.assertNoTimeout()
         testObserver.assertValueCount(1)
@@ -32,7 +32,7 @@ class LocalSongProviderTest {
     fun getSongsListForGibberishTerm_returnsEmpty(){
         val artistName = "dahsuofhao oiioas"
 
-        val testObserver = localSongProvider.searchSongsByArtistName(artistName).testAwait()
+        val testObserver = localSongProvider.searchSongsForArtistName(artistName).testAwait()
         testObserver.assertNoErrors()
         testObserver.assertNoTimeout()
         testObserver.assertValueCount(1)
@@ -47,7 +47,7 @@ class LocalSongProviderTest {
         val artistName = "38" //from ".38 Special" artist name
         val songsCount = 4
 
-        val testObserver = localSongProvider.searchSongsByArtistName(artistName).testAwait()
+        val testObserver = localSongProvider.searchSongsForArtistName(artistName).testAwait()
         testObserver.assertNoErrors()
         testObserver.assertNoTimeout()
         testObserver.assertValueCount(1)

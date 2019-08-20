@@ -2,7 +2,7 @@ package com.wl.songapp.viewmodel
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.MediumTest
-import com.wl.songapp.data.SongDataProvider
+import com.wl.songapp.data.repository.SongDataProvider
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.koin.test.KoinTest
@@ -25,18 +25,18 @@ class MainViewModelTest : KoinTest {
     @Test
     fun setDataSourceAsLocal_getSongDataReturnsLocalDataSource(){
         viewModel.setDataSource(MainViewModel.DATA_SOURCE_LOCAL)
-        assert(viewModel.getSongData == SongDataProvider::getSongListLocal)
+        assert(viewModel.getSongData == SongDataProvider::getSongsForArtistLocal)
     }
 
     @Test
     fun setDataSourceAsApi_getSongDataReturnsAPIDataSource(){
         viewModel.setDataSource(MainViewModel.DATA_SOURCE_LOCAL)
-        assert(viewModel.getSongData == SongDataProvider::getSongListFromApi)
+        assert(viewModel.getSongData == SongDataProvider::getSongsForArtistRemote)
     }
 
     @Test
     fun initialDataSourceIsBoth(){
-        assert(viewModel.getSongData == SongDataProvider::getSongListFromBoth)
+        assert(viewModel.getSongData == SongDataProvider::getSongsForArtist)
     }
 
     @Test
@@ -51,7 +51,7 @@ class MainViewModelTest : KoinTest {
             Thread.sleep(50)
         }
 
-        assert((viewModel.songsListLiveData.value?.count() ?: 0) > 0)
-        assert((viewModel.songsListLiveData.value?.first()?.artistName ?: "").contains(searchTerm, true))
+        assert((viewModel.songsListItems.value?.count() ?: 0) > 0)
+        assert((viewModel.songsListItems.value?.first()?.artistName ?: "").contains(searchTerm, true))
     }
 }

@@ -8,14 +8,16 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.wl.songapp.R
 import com.wl.songapp.databinding.ActivityMainBinding
-import com.wl.songapp.recyclerview.SongAdapter
+import com.wl.songapp.extension.empty
+import com.wl.songapp.recyclerview.RecyclerViewAdapter
+import com.wl.songapp.entity.SongListItem
 import com.wl.songapp.viewmodel.MainViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : BindingActivity<ActivityMainBinding>() {
 
     override val viewModel by viewModel<MainViewModel>()
-    private lateinit var recyclerAdapter: SongAdapter
+    private lateinit var recyclerAdapter: RecyclerViewAdapter<SongListItem>
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         super.createLayoutBinding(R.layout.activity_main)
@@ -23,9 +25,9 @@ class MainActivity : BindingActivity<ActivityMainBinding>() {
         setUpToolbar(binding.mainActivityToolbar)
         setUpRecyclerView(binding.songsRecycler)
 
-        observe(viewModel.songsListLiveData, recyclerAdapter::updateData)
+        observe(viewModel.songsListItems) { recyclerAdapter.data = it }
         observe(viewModel.errorMessage) {
-            if(it != "") displayMessage(it)
+            if(it != String.empty) displayMessage(it)
         }
     }
 
@@ -56,7 +58,7 @@ class MainActivity : BindingActivity<ActivityMainBinding>() {
 
     private fun setUpRecyclerView(recycler: RecyclerView) {
         val viewManager = LinearLayoutManager(this)
-        recyclerAdapter = SongAdapter(emptyList())
+        recyclerAdapter = RecyclerViewAdapter(R.layout.song_list_item, this)
 
         recycler.apply {
             setHasFixedSize(true)

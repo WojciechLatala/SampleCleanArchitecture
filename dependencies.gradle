@@ -1,0 +1,25 @@
+ext {
+
+    // Android
+    minSdkVersion = 21
+    targetSdkVersion = 29
+    compileSdkVersion = 29
+    buildToolsVersion = "29.0.0"
+    testInstrumentationRunner = "android.support.test.runner.AndroidJUnitRunner"
+
+    retrofit_version = '2.5.0' //todo leave only shared libraries here
+    okhttp_version = '3.12.3' //change to 4.1.0
+    moshi_version = '1.8.0'
+    okio_version = '2.1.0'
+    koin_version = '2.0.1'
+    rxandroid_version = '2.1.1'
+    rxjava_version = '2.2.9'
+    rxkotlin_version = '2.3.0'
+    robolectric_version = '4.3-beta-1'
+
+    androidSupportLibVersion = '1.0.0-beta01'
+
+    //tests
+
+
+}

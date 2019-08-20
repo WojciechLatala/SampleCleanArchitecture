@@ -8,7 +8,7 @@
         <import type="android.view.View"/>
         <variable
                 name="viewModel"
-                type="com.wl.songapp.viewmodel.MainViewModel"/>
+                type="com.wl.songapp.entity.SongListItem"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -27,6 +27,7 @@
             android:maxLines="1"
             android:textColor="@android:color/black"
             tools:text="My own summer"
+            android:text="@{viewModel.songTitle}"
             app:layout_constraintHorizontal_bias="0"
             app:layout_constraintVertical_bias="0"
             app:layout_constraintVertical_chainStyle="packed"
@@ -42,6 +43,7 @@
             android:textSize="@dimen/text_12"
             android:maxLines="1"
             tools:text="Deftones"
+            android:text="@{viewModel.artistName}"
             app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintHorizontal_bias="0"
             app:layout_constraintTop_toBottomOf="@id/song_title"
@@ -57,6 +59,7 @@
             android:textSize="@dimen/text_12"
             android:maxLines="1"
             tools:text="1997"
+            android:text="@{viewModel.yearPublished}"
             app:layout_constraintHorizontal_bias="0"
             app:layout_constraintTop_toTopOf="@id/song_artist"
             app:layout_constraintBottom_toBottomOf="@id/song_artist"
