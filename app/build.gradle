@@ -56,23 +56,22 @@ android {
 dependencies {
     //base
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$rootProject.ext.kotlin_version"
-    implementation 'androidx.appcompat:appcompat:1.0.2'
-    implementation 'androidx.core:core-ktx:1.0.2'
-    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
-    implementation 'androidx.recyclerview:recyclerview:1.0.0'
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$rootProject.ext.kotlin_version"
+    implementation "androidx.appcompat:appcompat:$rootProject.ext.androidx_version"
+    implementation "androidx.core:core-ktx:$rootProject.ext.androidx_version"
+    implementation "androidx.constraintlayout:constraintlayout:$rootProject.ext.constraintlayout_version"
+    implementation "androidx.recyclerview:recyclerview:$rootProject.ext.recyclerview_version"
 
     //tests
-    testImplementation 'junit:junit:4.12'
+    testImplementation "junit:junit:$rootProject.ext.junit_version"
     testImplementation "org.robolectric:robolectric:$rootProject.ext.robolectric_version"
-    androidTestImplementation 'androidx.test:runner:1.2.0'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    testImplementation "com.squareup.okhttp3:mockwebserver:$rootProject.ext.mockwebserver_version"
+    androidTestImplementation "androidx.test:runner:$rootProject.ext.androidx_test_version"
+    androidTestImplementation "androidx.test:core:$rootProject.ext.androidx_test_version"
+    androidTestImplementation "androidx.test:rules:$rootProject.ext.androidx_test_version"
+    androidTestImplementation "androidx.test.ext:junit:$rootProject.ext.androidx_test_ext_junit_version"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$rootProject.ext.espresso_version"
     androidTestImplementation "org.robolectric:annotations:$rootProject.ext.robolectric_version"
-    androidTestImplementation 'androidx.test:core:1.2.0'
-    androidTestImplementation 'androidx.test:rules:1.2.0'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
-    testImplementation 'com.squareup.okhttp3:mockwebserver:3.12.3'
 
     //koin
     implementation "org.koin:koin-android:$rootProject.ext.koin_version"

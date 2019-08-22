@@ -16,7 +16,6 @@ This app is a WORK IN PROGRESS
 * Moshi
 
 ### TODO
-* remove unnecessary gradle references; add test implementations
 * implement and update tests
 * implement room database
 * think about including additional interfaces for providers in data layer

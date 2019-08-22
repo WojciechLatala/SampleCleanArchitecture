@@ -1,9 +1,9 @@
 package com.wl.songapp.viewmodel
 
 import androidx.lifecycle.*
-import com.wl.songapp.IOThread
-import com.wl.songapp.IResourceProvider
-import com.wl.songapp.UIThread
+import com.wl.songapp.common.IOThread
+import com.wl.songapp.common.IResourceProvider
+import com.wl.songapp.common.UIThread
 import com.wl.songapp.extension.liveData
 import com.wl.songapp.R
 import com.wl.songapp.domain.common.empty

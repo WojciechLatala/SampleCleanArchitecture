@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.wl.songapp.R
 import com.wl.songapp.databinding.ActivityMainBinding
-import com.wl.songapp.extension.empty
+import com.wl.songapp.domain.common.empty
 import com.wl.songapp.recyclerview.RecyclerViewAdapter
 import com.wl.songapp.entity.SongListItem
 import com.wl.songapp.viewmodel.MainViewModel

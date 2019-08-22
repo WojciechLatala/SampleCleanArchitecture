@@ -1,4 +1,4 @@
-package com.wl.songapp
+package com.wl.songapp.common
 
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner

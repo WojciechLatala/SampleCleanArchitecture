@@ -4,7 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import com.wl.songapp.BR
-import com.wl.songapp.ILiveDataObserver
+import com.wl.songapp.common.ILiveDataObserver
 import com.wl.songapp.R
 import com.wl.songapp.viewmodel.BaseViewModel
 

@@ -31,6 +31,9 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
 
+    //test
+    testImplementation "junit:junit:$rootProject.ext.junit_version"
+
     //rx
     implementation "io.reactivex.rxjava2:rxandroid:$rootProject.ext.rxandroid_version"
     implementation "io.reactivex.rxjava2:rxjava:$rootProject.ext.rxjava_version"
