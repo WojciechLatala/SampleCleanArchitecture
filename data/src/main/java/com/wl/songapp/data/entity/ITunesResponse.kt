@@ -6,10 +6,10 @@ import com.squareup.moshi.JsonClass
 @JsonClass(generateAdapter = true)
 data class ITunesResponse(
     @Json(name = "resultCount") val resultCount: Int = 0,
-    @Json(name = "results") val results: List<Result>
+    @Json(name = "results") val results: List<ITunesResult>
 )
 
-data class Result( //there are many more fields, but these will suffice
+data class ITunesResult( //there are many more fields, but these will suffice
     val trackName: String,
     val artistName: String,
     val releaseDate: String? = null

@@ -1,7 +1,7 @@
 package com.wl.songapp.data.repository
 
 import com.wl.songapp.data.api.IRemoteSongApi
-import com.wl.songapp.data.db.LocalSongProvider
+import com.wl.songapp.data.db.ILocalSongProvider
 import com.wl.songapp.data.mapper.ITunesResponseSongDataProviderResultMapper
 import com.wl.songapp.data.mapper.SongDataListSongDataProviderResultMapper
 import com.wl.songapp.domain.common.empty
@@ -10,17 +10,18 @@ import com.wl.songapp.domain.entity.SongEntity
 import com.wl.songapp.domain.repository.ISongDataProvider
 import io.reactivex.Single
 import io.reactivex.functions.BiFunction
+import java.util.*
 
 class SongDataProvider(
     private val remoteSongProvider: IRemoteSongApi,
-    private val localSongProvider: LocalSongProvider,
+    private val localSongProvider: ILocalSongProvider,
     private val iTunesResponseSongDataProviderResultMapper: ITunesResponseSongDataProviderResultMapper,
-    private val songDataListSongDataProviderMapper: SongDataListSongDataProviderResultMapper
+    private val songDataListSongDataProviderResultMapper: SongDataListSongDataProviderResultMapper
 ) : ISongDataProvider {
 
     override fun getSongsForArtistLocal(artistName: String): Single<SongDataProviderResult> {
-        return localSongProvider.searchSongsForArtistName(artistName)
-            .map { songDataListSongDataProviderMapper.map(it) }
+        return localSongProvider.getSongsForArtistName(artistName)
+            .map { songDataListSongDataProviderResultMapper.map(it) }
             .onErrorReturn {
                 SongDataProviderResult(emptyList(), it)
             }
@@ -49,7 +50,7 @@ class SongDataProvider(
     private fun mergeSongLists(localList: List<SongEntity>, remoteList: List<SongEntity>): List<SongEntity> {
         return localList
             .plus(remoteList)
-            .distinctBy { it.artistName.toLowerCase() to it.songTitle.toLowerCase() }
+            .distinctBy { it.artistName.toLowerCase(Locale.getDefault()) to it.songTitle.toLowerCase(Locale.getDefault()) }
     }
 
     private fun mergeErrors(local: Throwable?, api: Throwable?): Throwable? {

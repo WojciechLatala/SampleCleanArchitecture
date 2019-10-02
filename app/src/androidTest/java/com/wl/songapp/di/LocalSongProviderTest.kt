@@ -1,24 +1,23 @@
-package com.wl.songapp.data.local
+package com.wl.songapp.di
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.wl.songapp.data.db.LocalSongProvider
 import com.wl.songapp.testAwait
 import org.junit.Test
 import org.junit.Assert.*
 import org.junit.runner.RunWith
-import org.koin.core.inject
+import org.koin.core.get
 import org.koin.test.KoinTest
 
 @RunWith(AndroidJUnit4::class)
-class LocalSongProviderTest: KoinTest {
+class LocalSongProviderTest : KoinTest {
 
-    private val localSongProvider by inject<LocalSongProvider>()
+    private val localSongProvider = LocalSongProvider(get(), "json/songs_list", get())
 
     @Test
-    fun getSongsListForEmptyTerm_returnsEmpty(){
+    fun getSongDataListForEmptyTerm_returnsEmpty() {
         val artistName = ""
 
-        val testObserver = localSongProvider.searchSongsForArtistName(artistName).testAwait()
+        val testObserver = localSongProvider.getSongsForArtistName(artistName).testAwait()
         testObserver.assertNoErrors()
         testObserver.assertNoTimeout()
         testObserver.assertValueCount(1)
@@ -29,10 +28,10 @@ class LocalSongProviderTest: KoinTest {
     }
 
     @Test
-    fun getSongsListForGibberishTerm_returnsEmpty(){
+    fun getSongDataListForGibberishTerm_returnsEmpty() {
         val artistName = "dahsuofhao oiioas"
 
-        val testObserver = localSongProvider.searchSongsForArtistName(artistName).testAwait()
+        val testObserver = localSongProvider.getSongsForArtistName(artistName).testAwait()
         testObserver.assertNoErrors()
         testObserver.assertNoTimeout()
         testObserver.assertValueCount(1)
@@ -43,11 +42,11 @@ class LocalSongProviderTest: KoinTest {
     }
 
     @Test
-    fun getSongsListForExistingTerm_returnsSongList(){
-        val artistName = "38" //from ".38 Special" artist name
+    fun getSongDataListForValidTerm_returnsSongList() {
+        val artistName = "38" //from ".38 Special" artist name present in the file
         val songsCount = 4
 
-        val testObserver = localSongProvider.searchSongsForArtistName(artistName).testAwait()
+        val testObserver = localSongProvider.getSongsForArtistName(artistName).testAwait()
         testObserver.assertNoErrors()
         testObserver.assertNoTimeout()
         testObserver.assertValueCount(1)

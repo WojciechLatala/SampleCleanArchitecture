@@ -1,4 +1,4 @@
-package com.wl.songapp
+package com.wl.songapp.common
 
 interface IResourceProvider {
     //others not needed in this example

@@ -1,16 +1,18 @@
-package com.wl.songapp.data.db
+package com.wl.songapp.di
 
 import android.content.Context
-import io.reactivex.Single
 import com.squareup.moshi.JsonAdapter
 import com.squareup.moshi.Moshi
-import com.squareup.moshi.Types.newParameterizedType
+import com.squareup.moshi.Types
+import com.wl.songapp.data.db.ILocalSongProvider
 import com.wl.songapp.data.entity.SongData
+import io.reactivex.Single
 
-//todo: should be some db, with proper data querying, storage, etc. Here it's a simple json with filter on results for simplicity
-class LocalSongProvider(private val context: Context, private val localFilePath: String, private val moshi: Moshi) {
+//todo remove from here, create Room DB instance and Room DB files in Data module
+class LocalSongProvider(private val context: Context, private val localFilePath: String, private val moshi: Moshi):
+    ILocalSongProvider {
 
-    fun searchSongsForArtistName(artistName: String): Single<List<SongData>> {
+    override fun getSongsForArtistName(artistName: String): Single<List<SongData>> {
         return Single.just(
             if (artistName.isBlank()) {
                 emptyList()
@@ -24,7 +26,7 @@ class LocalSongProvider(private val context: Context, private val localFilePath:
 
     private fun getAllSongs(): List<SongData> {
         val jsonString = getLocalAssetString(localFilePath)
-        val type = newParameterizedType(List::class.java, SongData::class.java)
+        val type = Types.newParameterizedType(List::class.java, SongData::class.java)
         val adapter: JsonAdapter<List<SongData>> = moshi.adapter(type)
         val songs = adapter.fromJson(jsonString)
         return songs ?: emptyList()

@@ -2,11 +2,11 @@ package com.wl.songapp.di
 
 import android.util.Log
 import com.squareup.moshi.Moshi
-import com.wl.songapp.AppContext
-import com.wl.songapp.IOThread
-import com.wl.songapp.IResourceProvider
+import com.wl.songapp.common.AppContext
+import com.wl.songapp.common.IOThread
+import com.wl.songapp.common.IResourceProvider
 import com.wl.songapp.data.api.IRemoteSongApi
-import com.wl.songapp.data.db.LocalSongProvider
+import com.wl.songapp.data.db.ILocalSongProvider
 import com.wl.songapp.data.mapper.ITunesResponseSongDataProviderResultMapper
 import com.wl.songapp.data.mapper.SongDataListSongDataProviderResultMapper
 import com.wl.songapp.data.repository.SongDataProvider
@@ -86,14 +86,14 @@ val applicationModule = module {
     }
 
     single { get<Retrofit>().create(IRemoteSongApi::class.java) as IRemoteSongApi }
-    single { LocalSongProvider(context = get(), localFilePath = SONG_LIST_ASSET_PATH, moshi = get()) }
+    single { LocalSongProvider(context = get(), localFilePath = SONG_LIST_ASSET_PATH, moshi = get()) as ILocalSongProvider }
 
     single {
         SongDataProvider(
             remoteSongProvider = get(),
             localSongProvider = get(),
             iTunesResponseSongDataProviderResultMapper = get(),
-            songDataListSongDataProviderMapper = get()
+            songDataListSongDataProviderResultMapper = get()
         ) as ISongDataProvider
     }
 }
