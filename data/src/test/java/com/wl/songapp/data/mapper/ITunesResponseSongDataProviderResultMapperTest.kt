@@ -3,7 +3,7 @@ package com.wl.songapp.data.mapper
 import com.wl.songapp.data.entity.ITunesResponse
 import com.wl.songapp.data.entity.ITunesResult
 import com.wl.songapp.domain.common.empty
-import com.wl.songapp.domain.entity.SongEntity
+import com.wl.songapp.domain.entity.SongData
 import io.reactivex.Single
 import io.reactivex.observers.TestObserver
 import org.junit.Assert.assertEquals
@@ -39,7 +39,7 @@ class ITunesResponseSongDataProviderResultMapperTest {
         assertEquals(2, songDataProviderResult.songList.count())
 
         assertEquals(
-            SongEntity(
+            SongData(
                 songTitle = "trackName0",
                 artistName = "artistName0",
                 releaseYear = "2010"
@@ -47,7 +47,7 @@ class ITunesResponseSongDataProviderResultMapperTest {
             songDataProviderResult.songList[0]
         )
         assertEquals(
-            SongEntity(
+            SongData(
                 songTitle = "trackName1",
                 artistName = "artistName1",
                 releaseYear = "2011"
@@ -71,7 +71,7 @@ class ITunesResponseSongDataProviderResultMapperTest {
         assert(songDataProviderResult.songList.count() == 1)
 
         assertEquals(
-            SongEntity(
+            SongData(
                 songTitle = "trackName",
                 artistName = "artistName",
                 releaseYear = String.empty
@@ -100,7 +100,7 @@ class ITunesResponseSongDataProviderResultMapperTest {
 
         assertEquals(1, response.songList.count())
         assertEquals(
-            SongEntity(
+            SongData(
                 songTitle = "trackName",
                 artistName = "artistName",
                 releaseYear = String.empty

@@ -1,25 +1,22 @@
 package com.wl.songapp.data.mapper
 
 import com.wl.songapp.data.entity.ITunesResponse
+import com.wl.songapp.data.entity.SongEntity
 import com.wl.songapp.domain.common.Mapper
 import com.wl.songapp.domain.common.empty
-import com.wl.songapp.domain.entity.SongEntity
-import com.wl.songapp.domain.entity.SongDataProviderResult
 import java.text.SimpleDateFormat
 import java.util.*
 
-class ITunesResponseSongDataProviderResultMapper : Mapper<ITunesResponse, SongDataProviderResult>() {
-    override fun map(source: ITunesResponse): SongDataProviderResult {
-        return SongDataProviderResult(
-            songList = source.results.map {
-                SongEntity(
-                    artistName = it.artistName,
-                    songTitle = it.trackName,
-                    releaseYear = formatDate(it.releaseDate)
-                )
-            },
-            error = null
-        )
+class ITunesResponseSongEntityListMapper : Mapper<ITunesResponse, List<SongEntity>>() {
+    override fun map(source: ITunesResponse): List<SongEntity> {
+        return source.results.map {
+            SongEntity(
+                trackId = it.trackId,
+                artistName = it.artistName,
+                trackName = it.trackName,
+                releaseYear = formatDate(it.releaseDate)
+            )
+        }
     }
 
     private fun formatDate(date: String?): String {

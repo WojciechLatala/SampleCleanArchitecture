@@ -21,7 +21,7 @@ ext {
     rxjava_version = '2.2.9'
     rxkotlin_version = '2.3.0'
     robolectric_version = '4.3-beta-1'
-
+    room_version = '2.2.0-rc01'
 
     //tests
     androidx_test_version = '1.2.0'

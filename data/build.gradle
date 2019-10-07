@@ -47,5 +47,11 @@ dependencies {
     kapt "com.squareup.moshi:moshi-kotlin-codegen:$rootProject.ext.moshi_version"
     kaptTest "com.squareup.moshi:moshi-kotlin-codegen:$rootProject.ext.moshi_version"
 
+    //room
+    implementation "androidx.room:room-runtime:$rootProject.ext.room_version"
+    kapt "androidx.room:room-compiler:$rootProject.ext.room_version"
+    implementation "androidx.room:room-rxjava2:$rootProject.ext.room_version"
+    androidTestImplementation "androidx.room:room-testing:$rootProject.ext.room_version"
+
     implementation project(":domain")
 }

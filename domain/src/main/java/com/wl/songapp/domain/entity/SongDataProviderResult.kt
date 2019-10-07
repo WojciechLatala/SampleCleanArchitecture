@@ -1,3 +1,4 @@
 package com.wl.songapp.domain.entity
 
-data class SongDataProviderResult(val songList: List<SongEntity>, val error: Throwable?)
+//todo remove this, pass simple List<SongData> instead
+//data class SongDataProviderResult(val songList: List<SongData>, val error: Throwable?)

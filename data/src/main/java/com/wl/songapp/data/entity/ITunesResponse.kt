@@ -9,7 +9,8 @@ data class ITunesResponse(
     @Json(name = "results") val results: List<ITunesResult>
 )
 
-data class ITunesResult( //there are many more fields, but these will suffice
+data class ITunesResult( //there are many more fields, but these will suffice https://affiliate.itunes.apple.com/resources/documentation/itunes-store-web-service-search-api/
+    val trackId: Long,
     val trackName: String,
     val artistName: String,
     val releaseDate: String? = null

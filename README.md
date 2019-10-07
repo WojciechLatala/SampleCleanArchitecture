@@ -14,12 +14,9 @@ This app is a WORK IN PROGRESS
 * OKHTTP
 * Retrofit
 * Moshi
+* Room
 
 ### TODO
-* implement and update tests
-* implement room database
-* think about including additional interfaces for providers in data layer
-* change data layer return type
 * introduce proper API requests error handling
 
 ### License

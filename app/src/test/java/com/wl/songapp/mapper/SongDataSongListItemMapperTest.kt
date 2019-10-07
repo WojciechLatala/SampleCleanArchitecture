@@ -1,17 +1,17 @@
 package com.wl.songapp.mapper
 
 import com.wl.songapp.domain.common.empty
-import com.wl.songapp.domain.entity.SongEntity
+import com.wl.songapp.domain.entity.SongData
 import com.wl.songapp.recyclerview.RecyclerListItem
 import com.wl.songapp.testAwait
 import org.junit.Test
 
-class SongEntitySongListItemMapperTest{
+class SongDataSongListItemMapperTest{
 
-    private val songEntitySongListItemMapper = SongEntitySongListItemMapper()
+    private val songEntitySongListItemMapper = SongDataSongListItemMapper()
 
-    private fun getSongEntity(nameSuffix: String = String.empty): SongEntity {
-        return SongEntity("song_title_$nameSuffix", "artist_name_$nameSuffix", "release_year_$nameSuffix")
+    private fun getSongEntity(nameSuffix: String = String.empty): SongData {
+        return SongData("song_title_$nameSuffix", "artist_name_$nameSuffix", "release_year_$nameSuffix")
     }
 
     @Test

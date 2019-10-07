@@ -100,6 +100,11 @@ dependencies {
     implementation "io.reactivex.rxjava2:rxjava:$rootProject.ext.rxjava_version"
     implementation "io.reactivex.rxjava2:rxkotlin:$rootProject.ext.rxkotlin_version"
 
+    //room
+    implementation "androidx.room:room-runtime:$rootProject.ext.room_version"
+    kapt "androidx.room:room-compiler:$rootProject.ext.room_version"
+    implementation "androidx.room:room-rxjava2:$rootProject.ext.room_version"
+
     implementation project(":domain")
     implementation project(":data")
 }

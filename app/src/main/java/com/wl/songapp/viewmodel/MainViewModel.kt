@@ -7,16 +7,16 @@ import com.wl.songapp.common.UIThread
 import com.wl.songapp.extension.liveData
 import com.wl.songapp.R
 import com.wl.songapp.domain.common.empty
-import com.wl.songapp.domain.entity.SongDataProviderResult
-import com.wl.songapp.domain.entity.SongEntity
+import com.wl.songapp.domain.entity.SongData
 import com.wl.songapp.domain.usecase.SearchSongsForArtistNameLocalUseCase
 import com.wl.songapp.domain.usecase.SearchSongsForArtistNameRemoteUseCase
 import com.wl.songapp.domain.usecase.SearchSongsForArtistNameUseCase
 import com.wl.songapp.entity.SongListItem
 import com.wl.songapp.extension.disposeWith
-import com.wl.songapp.mapper.SongEntitySongListItemMapper
+import com.wl.songapp.mapper.SongDataSongListItemMapper
 import io.reactivex.BackpressureStrategy
 import io.reactivex.Flowable
+import io.reactivex.Observable
 import io.reactivex.Single
 import java.util.concurrent.TimeUnit
 
@@ -25,16 +25,17 @@ class MainViewModel(
     private val searchSongsForArtistNameLocalUseCase: SearchSongsForArtistNameLocalUseCase,
     private val searchSongsForArtistNameRemoteUseCase: SearchSongsForArtistNameRemoteUseCase,
     private val searchSongsForArtistNameUseCase: SearchSongsForArtistNameUseCase,
-    private val songEntitySongListItemMapper: SongEntitySongListItemMapper
+    private val songDataSongListItemMapper: SongDataSongListItemMapper
 ) : BaseViewModel() {
 
     val searchTermLiveData by liveData(String.empty)
 
-    private val songsListLiveData by liveData<List<SongEntity>>(emptyList())
+    private val songsListLiveData by liveData<List<SongData>>(emptyList())
 
-    val songsListItems: LiveData<List<SongListItem>> = Transformations.map(songsListLiveData) { songList ->
-        songList.map { songEntitySongListItemMapper.map(it) }
-    }
+    val songsListItems: LiveData<List<SongListItem>> =
+        Transformations.map(songsListLiveData) { songList ->
+            songList.map { songDataSongListItemMapper.map(it) }
+        }
 
     private val _isLoading by liveData(false)
     val isLoading: LiveData<Boolean> get() = _isLoading
@@ -70,19 +71,19 @@ class MainViewModel(
             .doOnNext {
                 _isLoading.postValue(true)
             }
-            .switchMapSingle<SongDataProviderResult> {
+            .switchMap<List<SongData>> {
                 if (it == String.empty) {
-                    Single.just(SongDataProviderResult(emptyList(), null))
+                    Flowable.just(emptyList())
                 } else {
                     getSongData(it)
-                        .onErrorReturn { error -> SongDataProviderResult(emptyList(), error) }
+                        .onErrorReturn { error -> emptyList() }
                 }
             }
             .subscribe(::onSongsAcquired, ::onSongsAcquiringError)
             .disposeWith(disposables)
     }
 
-    val getSongData: ((String) -> Single<SongDataProviderResult>)
+    val getSongData: ((String) -> Flowable<List<SongData>>)
         get() = when (dataSource) {
             DATA_SOURCE_LOCAL -> searchSongsForArtistNameLocalUseCase::search
             DATA_SOURCE_API -> searchSongsForArtistNameRemoteUseCase::search
@@ -97,15 +98,14 @@ class MainViewModel(
 
     fun onRefresh() {
         val term = searchTermLiveData.value
-        if(term == String.empty){
+        if (term == String.empty) {
             _isLoading.postValue(false)
-        }
-        else{
+        } else {
             searchTermLiveData.postValue(term)
         }
     }
 
-    private fun onSongsAcquired(result: SongDataProviderResult) {
+    private fun onSongsAcquired(result: List<SongData>) {
         _isLoading.postValue(false)
         songsListLiveData.postValue(result.songList)
 
