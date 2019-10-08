@@ -13,6 +13,7 @@ import com.wl.songapp.data.db.ILocalSongProvider
 import com.wl.songapp.data.db.SongsDatabase
 import com.wl.songapp.data.mapper.ITunesResponseSongEntityListMapper
 import com.wl.songapp.data.mapper.SongEntitySongDataMapper
+import com.wl.songapp.data.repository.LocalSongProvider
 import com.wl.songapp.data.repository.SongDataProvider
 import com.wl.songapp.domain.repository.ISongDataProvider
 import com.wl.songapp.domain.usecase.SearchSongsForArtistNameLocalUseCase
@@ -91,7 +92,11 @@ val applicationModule = module {
             .build()
     }
 
+    //data access objects
     single { get<Retrofit>().create(IRemoteSongApi::class.java) as IRemoteSongApi }
+    factory { get<SongsDatabase>().songDao() }
+    single { LocalSongProvider(songDao = get()) as ILocalSongProvider}
+
     //database
     single {
         SingletonHolder<Context, SongsDatabase> {
@@ -104,9 +109,6 @@ val applicationModule = module {
                 .build()
         }.getInstance(get())
     }
-
-    //Data access objects
-    factory { get<SongsDatabase>().songDao() as ILocalSongProvider }
 
     single {
         SongDataProvider(

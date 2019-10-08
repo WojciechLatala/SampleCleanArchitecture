@@ -17,10 +17,12 @@ class SongDataProvider(
     private val songEntitySongDataMapper: SongEntitySongDataMapper
 ) : ISongDataProvider {
     override fun getSongsForArtistLocal(artistName: String): Single<List<SongData>> {
-        return localSongProvider.getSongsForArtistName(artistName)
-            .map { songsList ->
-                songsList.map { songEntitySongDataMapper.map(it) }
-            }
+        return Single.just(localSongProvider.getSongsForArtistName(artistName)
+//            .map { songsList ->
+//                songsList
+                .map {
+                    songEntitySongDataMapper.map(it) })
+//            }
 //            .onErrorReturn {
 //                SongDataProviderResult(emptyList(), it)
 //            }
@@ -28,20 +30,23 @@ class SongDataProvider(
 
     override fun getSongsForArtistRemote(artistName: String): Single<List<SongData>> {
         return remoteSongProvider.getSongsForArtistName(artistName)
+
             .map { iTunesResponseSongEntityListMapper.map(it) }
-            //todo await base update
-            .flatMapCompletable { Completable.fromCallable { localSongProvider.updateSongsData(it) } }
-            //todo then get new data
+//            //todo await base update
+            .flatMapCompletable { Completable.fromAction { localSongProvider.updateSongsData(it) } }
+//            //todo then get new data
             .andThen(getSongsForArtistLocal(artistName))
     }
 
-    override fun getSongsForArtist(artistName: String): Flowable<List<SongData>> {
-        return Flowable.mergeDelayError<List<SongData>> {
-            listOf(
-                getSongsForArtistLocal(artistName),
-                getSongsForArtist(artistName)
-            ).take(2)
-        }
+    override fun getSongsForArtist(artistName: String): Single<List<SongData>> {
+        return getSongsForArtistRemote(artistName)
+        //todo get somethjing goin on here
+//        Flowable.mergeDelayError<List<SongData>> {
+//            listOf(
+//                getSongsForArtistLocal(artistName),
+//                getSongsForArtist(artistName)
+//            ).take(2)
+//        }
 //        return getSongsForArtistLocal(artistName)
 //            .zipWith(
 //                getSongsForArtistRemote(artistName),

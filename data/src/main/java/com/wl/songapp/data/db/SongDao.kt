@@ -6,11 +6,11 @@ import com.wl.songapp.data.entity.SongEntity
 import io.reactivex.Single
 
 @Dao
-interface SongDao : BaseDao<SongEntity>, ILocalSongProvider {
+interface SongDao : BaseDao<SongEntity> {
 
     @Query("SELECT * FROM songs")
-    fun getSongs(): Single<List<SongEntity>>
+    fun getSongs(): List<SongEntity>
 
     @Query("SELECT * FROM songs WHERE artistName LIKE :artistName")
-    override fun getSongsForArtistName(artistName: String): Single<List<SongEntity>>
+    fun getSongsForArtistName(artistName: String): List<SongEntity>
 }

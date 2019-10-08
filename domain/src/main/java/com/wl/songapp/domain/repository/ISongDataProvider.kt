@@ -6,7 +6,7 @@ import io.reactivex.Single
 
 interface ISongDataProvider{
 
-    fun getSongsForArtist(artistName: String): Flowable<List<SongData>>
+    fun getSongsForArtist(artistName: String): Single<List<SongData>>
     fun getSongsForArtistLocal(artistName: String): Single<List<SongData>>
     fun getSongsForArtistRemote(artistName: String): Single<List<SongData>>
 }

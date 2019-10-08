@@ -71,25 +71,25 @@ class MainViewModel(
             .doOnNext {
                 _isLoading.postValue(true)
             }
-            .switchMap<List<SongData>> {
+            .switchMapSingle<List<SongData>> {
                 if (it == String.empty) {
-                    Flowable.just(emptyList())
+                    Single.just(emptyList())
                 } else {
                     getSongData(it)
-                        .onErrorReturn { error -> emptyList() }
                 }
             }
             .subscribe(::onSongsAcquired, ::onSongsAcquiringError)
             .disposeWith(disposables)
     }
 
-    val getSongData: ((String) -> Flowable<List<SongData>>)
-        get() = when (dataSource) {
-            DATA_SOURCE_LOCAL -> searchSongsForArtistNameLocalUseCase::search
-            DATA_SOURCE_API -> searchSongsForArtistNameRemoteUseCase::search
-            DATA_SOURCE_BOTH -> searchSongsForArtistNameUseCase::search
+    private fun getSongData(searchTerm: String): Single<List<SongData>> {
+        return when (dataSource) {
+            DATA_SOURCE_LOCAL -> searchSongsForArtistNameLocalUseCase.search(searchTerm)
+            DATA_SOURCE_API -> searchSongsForArtistNameRemoteUseCase.search(searchTerm)
+            DATA_SOURCE_BOTH -> searchSongsForArtistNameUseCase.search(searchTerm)
             else -> throw Exception(resourceProvider.getString(R.string.main_activity_invalid_data_source))
         }
+    }
 
     fun setDataSource(dataSource: Int) {
         this.dataSource = dataSource
@@ -106,21 +106,23 @@ class MainViewModel(
     }
 
     private fun onSongsAcquired(result: List<SongData>) {
-        _isLoading.postValue(false)
-        songsListLiveData.postValue(result.songList)
-
-        result.error?.let { onSongsAcquiringError(it) }
-
-        if (!result.songList.any()) {
-            updateEmptyStateMessage(result.error != null)
-        }
+        songsListLiveData.postValue(result)
+        onSongsAcquiringComplete()
     }
 
     private fun onSongsAcquiringError(throwable: Throwable) {
         _errorMessage.postValue(throwable.message)
+        updateEmptyStateMessage(true)
     }
 
-    private fun updateEmptyStateMessage(errorOccurred: Boolean) {
+    private fun onSongsAcquiringComplete(){
+        _isLoading.postValue(false)
+        if (songsListLiveData.value?.any() != true) {
+            updateEmptyStateMessage(false)
+        }
+    }
+
+    private fun updateEmptyStateMessage(errorOccurred: Boolean) { //todo error handling change
         _emptyStateText.postValue(
             resourceProvider.getString(
                 if (errorOccurred) {

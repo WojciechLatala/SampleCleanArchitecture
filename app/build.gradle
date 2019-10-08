@@ -73,6 +73,13 @@ dependencies {
     androidTestImplementation "androidx.test.espresso:espresso-core:$rootProject.ext.espresso_version"
     androidTestImplementation "org.robolectric:annotations:$rootProject.ext.robolectric_version"
 
+    //lifecycle
+    implementation "androidx.lifecycle:lifecycle-extensions:$rootProject.ext.lifecycle_version"
+    implementation "androidx.lifecycle:lifecycle-reactivestreams:$rootProject.ext.lifecycle_version"
+    implementation "androidx.lifecycle:lifecycle-common-java8:$rootProject.ext.lifecycle_version"
+    testImplementation "androidx.arch.core:core-testing:$rootProject.ext.lifecycle_version"
+    androidTestImplementation "androidx.arch.core:core-testing:$rootProject.ext.lifecycle_version"
+
     //koin
     implementation "org.koin:koin-android:$rootProject.ext.koin_version"
     implementation "org.koin:koin-androidx-scope:$rootProject.ext.koin_version"
